@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hello World - 我的第一个网站</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{min-height:100vh;display:flex;align-items:center;justify-content:center;font-family:"PingFang SC","Microsoft YaHei",sans-serif;background:linear-gradient(135deg,#667eea,#764ba2);color:#fff}
+.card{background:rgba(255,255,255,.15);backdrop-filter:blur(12px);border-radius:20px;padding:50px 60px;text-align:center;box-shadow:0 8px 32px rgba(0,0,0,.2);max-width:600px}
+h1{font-size:28px;line-height:1.6;margin-bottom:30px;font-weight:600}
+.time-box{background:rgba(255,255,255,.2);border-radius:12px;padding:20px 30px}
+.time-label{font-size:14px;opacity:.85;margin-bottom:8px}
+#server-time{font-size:32px;font-weight:700;font-family:"Courier New",monospace;letter-spacing:2px}
+.tz{font-size:12px;opacity:.7;margin-top:8px}
+</style>
+</head>
+<body>
+<div class="card">
+<h1>Hello World！<br>我是 king，<br>我的第一个 AI 开发的网站</h1>
+<div class="time-box">
+<div class="time-label">当前服务器时间</div>
+<div id="server-time">加载中...</div>
+<div class="tz" id="timezone"></div>
+</div>
+</div>
+<script>
+async function refreshTime(){
+  try{
+    const res=await fetch('/api/time');
+    const data=await res.json();
+    document.getElementById('server-time').textContent=data.serverTime;
+    document.getElementById('timezone').textContent='时区: '+data.timeZone;
+  }catch(e){document.getElementById('server-time').textContent='获取失败'}
+}
+refreshTime();
+setInterval(refreshTime,1000);
+</script>
+</body>
+</html>
